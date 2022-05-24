@@ -1,5 +1,9 @@
 import 'dart:math';
 
+import 'package:doctor_me/models/doctor.dart';
+import 'package:doctor_me/providers/current_provider.dart';
+import 'package:flutter_sms/flutter_sms.dart';
+
 class Utils{
   static String locationFromLatLon(double latitude, double longitude){
     return '$latitude%$longitude';
@@ -25,5 +29,11 @@ class Utils{
     return 12742 * asin(sqrt(a));
   }
 
-
+  static void sendMsg(bool isDoctor, String contact) async{
+    if(isDoctor){
+      await sendSMS(message: 'You have been scheduled for an appointment with the doctor. Call for more details.', recipients: [contact]);
+    }else{
+      await sendSMS(message: 'Request for an appointment for doctor for some problem.', recipients: [contact]);
+    }
+  }
 }

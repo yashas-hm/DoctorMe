@@ -7,12 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/current_provider.dart';
-import '../utils/utils.dart';
 
-enum Filters{
-  showByLocation,
-  signOut
-}
+enum Filters { showByLocation, signOut }
 
 class PatientAcceptScreen extends StatefulWidget {
   static const String routeName = '/patient-accept-screen';
@@ -30,8 +26,6 @@ class _PatientAcceptScreenState extends State<PatientAcceptScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<Patients>(context);
     final currentUser = Provider.of<CurrentUser>(context);
-    final darkMode =
-        MediaQuery.of(context).platformBrightness == Brightness.dark;
     // final loc = Utils.locationFromString((currentUser.getUser as Doctor).location!);
     // final List<Patient> patients = byLocation? provider.byLocation(loc[0], loc[1]):provider.patient;
     final List<Patient> patients = provider.patient;
@@ -40,22 +34,23 @@ class _PatientAcceptScreenState extends State<PatientAcceptScreen> {
         title: const Text('Doctor Me'),
         actions: [
           PopupMenuButton(
-            onSelected: (Filters selected){
-              if(selected == Filters.showByLocation){
+            onSelected: (Filters selected) {
+              if (selected == Filters.showByLocation) {
                 currentUser.toggleLocation();
                 setState(() {
                   byLocation = currentUser.byLocation;
                 });
-              }else if(selected == Filters.signOut){
+              } else if (selected == Filters.signOut) {
                 DBHelper.signOut(currentUser);
-                Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
               }
             },
             icon: const Icon(Icons.more_vert),
             itemBuilder: (_) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 enabled: false,
-                child: Text('Show by Location'),
+                child: Text(byLocation ? 'Show all' : 'Show by Location'),
                 value: Filters.showByLocation,
               ),
               const PopupMenuItem(

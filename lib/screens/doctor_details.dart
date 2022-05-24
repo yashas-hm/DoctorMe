@@ -1,5 +1,7 @@
 import 'package:doctor_me/models/doctor.dart';
+import 'package:doctor_me/providers/current_provider.dart';
 import 'package:doctor_me/providers/doctor_provider.dart';
+import 'package:doctor_me/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -89,7 +91,7 @@ class DoctorDetailsScreen extends StatelessWidget {
           ),
           Align(
             child: InkWell(
-              onTap: () => {},
+              onTap: () => Utils.sendMsg(Provider.of<CurrentUser>(context, listen: false).checkDoctor(), '+91'+_doctor.contact),
               splashColor: !darkMode ? Colors.black12 : Colors.white70,
               child: Container(
                 width: screenSize.width,
